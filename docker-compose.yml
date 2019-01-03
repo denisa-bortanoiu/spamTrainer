@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  train-worker:
+    build: ./training-worker
+    container_name: train-worker
+    volumes:
+     - ./training-worker:/app
+    ports:
+      - "5001:80"
+    depends_on:
+      - "db"
+    networks:
+      - training
+
+  train-interface:
+    build: ./training-interface
+    links:
+      - train-worker
+    ports:
+      - "5000:8080"
+    networks:
+      - training
+
+  classification-worker:
+    build: ./classification-worker
+    container_name: classification-worker
+    volumes:
+      - ./classification-worker:/app
+    ports:
+      - "5002:80"
+    depends_on:
+      - "db"
+    networks:
+      - classification
+
+  db:
+    image: mongo:3.0.2
+    container_name: db
+    volumes:
+      - db-data:/data/db
+    networks:
+      - training
+      - classification
+
+volumes:
+  db-data:
+
+networks:
+  classification:
+  training:
