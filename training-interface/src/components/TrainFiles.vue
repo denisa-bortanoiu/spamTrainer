@@ -93,5 +93,5 @@ export default {
   h1 {
     margin-bottom: 40px;
   }
-  
+
 </style>

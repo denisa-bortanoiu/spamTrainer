@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <h1>Training interface</h1>
+    <h1>Email classifier</h1>
+    <h2>Training interface</h2>
     <div class="container">
       <div class="row">
         <TrainFiles endpoint="spam" color="color: red"/>
@@ -26,7 +27,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .row {
-  margin-top: 40px;
+  margin-top: 80px;
 }
 
 .footer {
