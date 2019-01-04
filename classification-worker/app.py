@@ -1,4 +1,5 @@
 import re
+import email
 from math import log
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
@@ -63,10 +64,16 @@ def create_model():
 def classify():
     params = create_model()
     eml = request.files['file']
-    print predict(eml, params)
+    try:
+        msg = email.message_from_file(eml.stream)
+    except Exception as e:
+        print e
+        return jsonify({'message': 'invalid email'}), 400
 
-    return "OK"
+    classification = predict(msg, params)
 
+    return jsonify({'class': classification[0],
+                    'likelihood': classification[1]}), 200
 
 
 if __name__ == "__main__":
